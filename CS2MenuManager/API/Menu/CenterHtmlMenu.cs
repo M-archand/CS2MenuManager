@@ -21,7 +21,6 @@ public class CenterHtmlMenu(string title, BasePlugin plugin) : BaseMenu(title, p
     /// <param name="time">The duration for which the menu is displayed.</param>
     public override void Display(CCSPlayerController player, int time)
     {
-        Title = Title.TruncateHtml(CenterHtmlMenu_MaxTitleLength);
         MenuTime = time;
         MenuManager.OpenMenu(player, this, null, (p, m) => new CenterHtmlMenuInstance(p, m));
     }
@@ -34,7 +33,6 @@ public class CenterHtmlMenu(string title, BasePlugin plugin) : BaseMenu(title, p
     /// <param name="time">The duration for which the menu is displayed.</param>
     public override void DisplayAt(CCSPlayerController player, int firstItem, int time)
     {
-        Title = Title.TruncateHtml(CenterHtmlMenu_MaxTitleLength);
         MenuTime = time;
         MenuManager.OpenMenu(player, this, firstItem, (p, m) => new CenterHtmlMenuInstance(p, m));
     }
@@ -67,9 +65,6 @@ public class CenterHtmlMenuInstance : BaseMenuInstance
     /// <param name="menu">The menu associated with this instance.</param>
     public CenterHtmlMenuInstance(CCSPlayerController player, IMenu menu) : base(player, menu)
     {
-        if (Menu is CenterHtmlMenu { CenterHtmlMenu_MaxOptionLength: > 0 } centerHtmlMenu)
-            Menu.ItemOptions.ForEach(option => option.Text = option.Text.TruncateHtml(centerHtmlMenu.CenterHtmlMenu_MaxOptionLength));
-
         Menu.Plugin.RegisterListener<OnTick>(Display);
     }
 
@@ -82,19 +77,21 @@ public class CenterHtmlMenuInstance : BaseMenuInstance
             return;
 
         StringBuilder builder = new();
-        builder.Append($"<b><font color='{centerHtmlMenu.CenterHtmlMenu_TitleColor}'>{centerHtmlMenu.Title}</font></b><br>");
+        string title = centerHtmlMenu.Title.TruncateHtml(centerHtmlMenu.CenterHtmlMenu_MaxTitleLength);
+        builder.Append($"<b><font color='{centerHtmlMenu.CenterHtmlMenu_TitleColor}'>{title}</font></b><br>");
 
         int keyOffset = 1;
         int maxIndex = Math.Min(CurrentOffset + MenuItemsPerPage, Menu.ItemOptions.Count);
         for (int i = CurrentOffset; i < maxIndex; i++)
         {
             ItemOption option = centerHtmlMenu.ItemOptions[i];
+            string text = option.Text.TruncateHtml(centerHtmlMenu.CenterHtmlMenu_MaxOptionLength);
             string color = option.DisableOption == DisableOption.None ? centerHtmlMenu.CenterHtmlMenu_EnabledColor : centerHtmlMenu.CenterHtmlMenu_DisabledColor;
 
             builder.Append(option.DisableOption switch
             {
-                DisableOption.None or DisableOption.DisableShowNumber => $"<font color='{color}'>!{keyOffset}</font> {option.Text}<br>",
-                DisableOption.DisableHideNumber => $"<font color='{color}'>{option.Text}</font><br>",
+                DisableOption.None or DisableOption.DisableShowNumber => $"<font color='{color}'>!{keyOffset}</font> {text}<br>",
+                DisableOption.DisableHideNumber => $"<font color='{color}'>{text}</font><br>",
                 _ => string.Empty
             });
 
