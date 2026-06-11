@@ -36,6 +36,8 @@ public class CS2MenuManager_Menu : BasePlugin, IPluginConfig<Config>
             return HookResult.Continue;
 
         MenuManager.CloseActiveMenu(player);
+        MenuTypeManager.CleanupPlayerState(player.SteamID);
+        WasdMenuInstance.CleanupPlayerState(player.SteamID);
         return HookResult.Continue;
     }
 

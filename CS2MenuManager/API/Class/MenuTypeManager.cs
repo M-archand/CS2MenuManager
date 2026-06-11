@@ -80,6 +80,15 @@ public static class MenuTypeManager
     }
 
     /// <summary>
+    /// Removes the cached menu type preference for a player.
+    /// </summary>
+    /// <param name="steamId">The SteamID of the player to clean up.</param>
+    public static void CleanupPlayerState(ulong steamId)
+    {
+        MenuTypes.Remove(steamId);
+    }
+
+    /// <summary>
     /// Creates a menu selection interface for choosing between available menu types.
     /// </summary>
     /// <typeparam name="T">The type of menu to create.</typeparam>
