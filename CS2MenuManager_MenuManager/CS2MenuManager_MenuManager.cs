@@ -83,7 +83,7 @@ public class CS2MenuManager_Menu : BasePlugin, IPluginConfig<Config>
     public void Command_ReloadConfig(CCSPlayerController? player, CommandInfo info)
     {
         string flag = Config.MenuManagerConfig.Flag;
-        if (string.IsNullOrWhiteSpace(flag) || AdminManager.PlayerHasPermissions(player, flag))
+        if (!string.IsNullOrWhiteSpace(flag) && !AdminManager.PlayerHasPermissions(player, flag))
             return;
 
         MenuManager.ReloadConfig();
