@@ -24,6 +24,6 @@
 			                       or '%(RuntimeCopyLocalItems.NuGetPackageId)' == 'MySqlConnector'" />
 		</ItemGroup>
 		<Copy SourceFiles="@(_PluginDep)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
-		<Copy SourceFiles="..\config.toml" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="..\config.example.toml" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
 	</Target>
 </Project>
