@@ -75,7 +75,7 @@ public class PanoramaVoteInstance : BaseVoteInstance
 
         VoteMenu.Handler?.Invoke(YesNoVoteAction.VoteAction_Start, 0, 0);
 
-        Timer = VoteMenu.Plugin.AddTimer(VoteMenu.VoteTime, () => EndVote(YesNoVoteEndReason.VoteEnd_TimeUp));
+        Timer = VoteMenu.Plugin.AddTimer(VoteMenu.VoteTime, () => Server.NextFrame(() => EndVote(YesNoVoteEndReason.VoteEnd_TimeUp)));
     }
 
     private HookResult OnVoteCast(EventVoteCast @event, GameEventInfo info)
