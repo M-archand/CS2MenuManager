@@ -176,6 +176,10 @@ public class WasdMenuInstance : BaseMenuInstance
     /// </summary>
     public void OnTick()
     {
+        // Early return once this instance is no longer the player's active menu.
+        if (!Player.IsValid || MenuManager.GetActiveMenu(Player) != this)
+            return;
+
         PlayerButtons button = Player.Buttons;
 
         foreach (KeyValuePair<string, Action> kvp in Buttons)

@@ -59,23 +59,57 @@ public class CenterHtmlMenuInstance : BaseMenuInstance
     protected override bool HasNextButton => Menu.ItemOptions.Count > NumPerPage + 1 && CurrentOffset + NumPerPage < Menu.ItemOptions.Count;
 
     /// <summary>
+    /// Cached rendered markup, rebuilt only when <see cref="_dirty"/> is set.
+    /// </summary>
+    private string _html = "";
+
+    /// <summary>
+    /// Indicates the cached markup is stale and must be rebuilt on the next tick.
+    /// </summary>
+    private bool _dirty = true;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="CenterHtmlMenuInstance"/> class.
     /// </summary>
     /// <param name="player">The player associated with this menu instance.</param>
     /// <param name="menu">The menu associated with this instance.</param>
     public CenterHtmlMenuInstance(CCSPlayerController player, IMenu menu) : base(player, menu)
     {
-        Menu.Plugin.RegisterListener<OnTick>(Display);
+        Menu.Plugin.RegisterListener<OnTick>(OnTick);
     }
 
     /// <summary>
-    /// Displays the menu to the player.
+    /// Marks the rendered markup stale. Invoked by the base navigation methods on any state change.
     /// </summary>
     public override void Display()
+    {
+        _dirty = true;
+    }
+
+    /// <summary>
+    /// Re-asserts the menu on the center HTML channel every tick so it survives other plugins
+    /// writing to the same channel, but rebuilds the markup only when the menu state has changed.
+    /// </summary>
+    private void OnTick()
     {
         if (Menu is not CenterHtmlMenu centerHtmlMenu)
             return;
 
+        // Stop drawing once this instance is no longer the player's active menu (closed/replaced).
+        if (!Player.IsValid || MenuManager.GetActiveMenu(Player) != this)
+            return;
+
+        if (_dirty)
+        {
+            _html = BuildHtml(centerHtmlMenu);
+            _dirty = false;
+        }
+
+        Player.PrintToCenterHtml(_html);
+    }
+
+    private string BuildHtml(CenterHtmlMenu centerHtmlMenu)
+    {
         StringBuilder builder = new();
         string title = centerHtmlMenu.Title.TruncateHtml(centerHtmlMenu.CenterHtmlMenu_MaxTitleLength);
         builder.Append($"<b><font color='{centerHtmlMenu.CenterHtmlMenu_TitleColor}'>{title}</font></b><br>");
@@ -99,7 +133,7 @@ public class CenterHtmlMenuInstance : BaseMenuInstance
         }
 
         AddPageOptions(centerHtmlMenu, builder);
-        Player.PrintToCenterHtml(builder.ToString());
+        return builder.ToString();
     }
 
     /// <summary>
@@ -108,7 +142,7 @@ public class CenterHtmlMenuInstance : BaseMenuInstance
     public override void Close(bool exitSound)
     {
         base.Close(exitSound);
-        Menu.Plugin.RemoveListener<OnTick>(Display);
+        Menu.Plugin.RemoveListener<OnTick>(OnTick);
 
         if (Player.IsValid)
             Player.PrintToCenterHtml(" ");
