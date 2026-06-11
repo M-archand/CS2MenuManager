@@ -24,8 +24,8 @@ public class Config : BasePluginConfig
 public class CS2MenuManager_Menu : BasePlugin, IPluginConfig<Config>
 {
     public override string ModuleName => "CS2MenuManager-MenuManager";
-    public override string ModuleVersion => CS2MenuManager.ProjectInfo.Version;
-    public override string ModuleAuthor => CS2MenuManager.ProjectInfo.Author;
+    public override string ModuleVersion => "1.0.43";
+    public override string ModuleAuthor => "schwarper";
 
     public Config Config { get; set; } = new();
 
