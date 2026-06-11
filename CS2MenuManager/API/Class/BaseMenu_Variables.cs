@@ -57,6 +57,7 @@ public abstract partial class BaseMenu
     private string _wasdMenuOptionColor = Config.WasdMenu.OptionColor;
     private string _wasdMenuDisabledOptionColor = Config.WasdMenu.DisabledOptionColor;
     private string _wasdMenuArrowColor = Config.WasdMenu.ArrowColor;
+    private bool _wasdMenuShowArrows = Config.WasdMenu.ShowArrows;
     private bool _wasdMenuFreezePlayer = Config.WasdMenu.FreezePlayer;
 
     /// <summary>
@@ -273,6 +274,15 @@ public abstract partial class BaseMenu
     {
         get => _wasdMenuArrowColor;
         set => _wasdMenuArrowColor = ConditionalSet(Config.WasdMenu.ArrowColor, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the selection arrows are shown around the highlighted option.
+    /// </summary>
+    public bool WasdMenu_ShowArrows
+    {
+        get => _wasdMenuShowArrows;
+        set => _wasdMenuShowArrows = ConditionalSet(Config.WasdMenu.ShowArrows, value);
     }
 
     /// <summary>

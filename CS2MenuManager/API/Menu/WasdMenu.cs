@@ -95,8 +95,8 @@ public class WasdMenuInstance : BaseMenuInstance
     {
         if (Menu is not WasdMenu wasdMenu) return;
 
-        string leftArrow = $"<font color='{wasdMenu.WasdMenu_ArrowColor}'>▶ [</font>";
-        string rightArrow = $"<font color='{wasdMenu.WasdMenu_ArrowColor}'> ] ◀</font>";
+        string leftArrow = wasdMenu.WasdMenu_ShowArrows ? $"<font color='{wasdMenu.WasdMenu_ArrowColor}'>▶ </font>" : string.Empty;
+        string rightArrow = wasdMenu.WasdMenu_ShowArrows ? $"<font color='{wasdMenu.WasdMenu_ArrowColor}'> ◀</font>" : string.Empty;
 
         StringBuilder builder = new();
         int totalPages = (int)Math.Ceiling((double)Menu.ItemOptions.Count / MenuItemsPerPage);

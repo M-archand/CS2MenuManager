@@ -81,6 +81,7 @@ internal static class ConfigManager
         public string OptionColor { get; set; } = "white";
         public string DisabledOptionColor { get; set; } = "grey";
         public string ArrowColor { get; set; } = "purple";
+        public bool ShowArrows { get; set; } = true;
         public bool FreezePlayer { get; set; }
     }
 
@@ -208,6 +209,7 @@ internal static class ConfigManager
         Config.WasdMenu.SelectedOptionColor = wasdMenu.GetValueOrDefault("SelectedOptionColor", Config.WasdMenu.SelectedOptionColor);
         Config.WasdMenu.OptionColor = wasdMenu.GetValueOrDefault("OptionColor", Config.WasdMenu.OptionColor);
         Config.WasdMenu.DisabledOptionColor = wasdMenu.GetValueOrDefault("DisabledOptionColor", Config.WasdMenu.DisabledOptionColor);
+        Config.WasdMenu.ShowArrows = wasdMenu.GetValueOrDefault("ShowArrows", Config.WasdMenu.ShowArrows);
         Config.WasdMenu.ArrowColor = wasdMenu.GetValueOrDefault("ArrowColor", Config.WasdMenu.ArrowColor);
         Config.WasdMenu.FreezePlayer = wasdMenu.GetValueOrDefault("FreezePlayer", Config.WasdMenu.FreezePlayer);
     }

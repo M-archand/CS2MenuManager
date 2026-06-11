@@ -60,6 +60,7 @@ ExitKeyColor = "Red"
 SelectedOptionColor = "Orange"
 OptionColor = "White"
 DisabledOptionColor = "Grey"
+ShowArrows = true
 ArrowColor = "Purple"
 FreezePlayer = false
 
