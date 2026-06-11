@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<OutputPath>$(ProjectDir)..\BuildOutput\plugins\CS2MenuManager_MenuManager\</OutputPath>
@@ -8,7 +8,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="CounterStrikeSharp.API" Version="*" />
+		<PackageReference Include="CounterStrikeSharp.API" Version="1.0.369" />
 		<ProjectReference Include="..\CS2MenuManager\CS2MenuManager.csproj" />
 		<None Update="lang\**\*.*" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
