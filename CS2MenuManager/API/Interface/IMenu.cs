@@ -27,6 +27,7 @@ public interface IMenu
     /// <summary>
     /// Gets or sets the time duration for which the menu is displayed.
     /// </summary>
+    [Obsolete("Pass the duration via Display(player, time). This menu-level property is no longer used for the auto-close timer (the instance's MenuTime is) and will be removed in a future version.")]
     int MenuTime { get; set; }
 
     /// <summary>
@@ -94,6 +95,11 @@ public interface IMenuInstance : IDisposable
     /// Gets the player associated with this menu instance.
     /// </summary>
     CCSPlayerController Player { get; }
+
+    /// <summary>
+    /// Gets the display duration (in seconds) this instance was opened with; 0 means no auto-close.
+    /// </summary>
+    int MenuTime { get; }
 
     /// <summary>
     /// Gets the current page number of the menu.
