@@ -98,7 +98,8 @@ public static class MenuManager
                 {
                     int item = Math.Clamp(firstItem.Value, 0, menu.ItemOptions.Count - 1);
 
-                    while (baseMenuInstance.CurrentChoiceIndex != item)
+                    // Walk forward only, '!= item' hangs if a restored CurrentChoiceIndex is already >= item.
+                    while (baseMenuInstance.CurrentChoiceIndex < item)
                     {
                         baseMenuInstance.CurrentChoiceIndex++;
 
